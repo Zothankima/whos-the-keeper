@@ -23,3 +23,10 @@ export function guessMatches(guess, secret) {
   }
   return prev[b.length] <= limit;
 }
+
+export function buildHint(secret) {
+  const words = String(secret ?? "").trim().split(/\s+/).filter(Boolean);
+  const masked = words.map(word => word[0].toLocaleUpperCase("en-US") + "_".repeat(Math.max(0, word.length - 1))).join(" ");
+  const lengths = words.map(word => word.length).join(" + ");
+  return `${masked}: ${lengths} letters`;
+}

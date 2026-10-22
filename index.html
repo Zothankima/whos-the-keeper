@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f7f6ff">
+  <meta name="description" content="A playful real-time guessing game for friends.">
+  <title>Who's the Keeper?</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <main class="app-shell">
+    <header class="topbar">
+      <a class="brand" href="/" aria-label="Who's the Keeper home"><span class="brand-mark">?</span><span>Who's the Keeper?</span></a>
+      <button id="sound-toggle" class="icon-button" aria-pressed="false" title="Toggle sound">♪ <span id="sound-label">Sound off</span></button>
+    </header>
+
+    <section id="welcome-screen" class="screen welcome-screen">
+      <div class="hero-art" aria-hidden="true"><span class="spark spark-a">✦</span><span class="orb orb-a">🐙</span><span class="orb orb-b">🦒</span><span class="orb orb-c">🍕</span><span class="spark spark-b">✧</span></div>
+      <p class="eyebrow">A tiny mystery. A lot of questions.</p>
+      <h1>Who's the<br><span>Keeper?</span></h1>
+      <p class="lead">One secret. Ten shared tries. Can your friends figure it out?</p>
+      <div class="button-stack">
+        <button id="show-create" class="button button-primary">Create a room <span>↗</span></button>
+        <button id="show-join" class="button button-secondary">Join a room</button>
+        <button id="show-how" class="text-button">How to play in 30 seconds</button>
+      </div>
+      <p class="fine-print">2–8 players · Free to play · No account needed</p>
+    </section>
+
+    <section id="entry-screen" class="screen panel hidden">
+      <button class="back-button" data-back>← Back</button>
+      <p class="eyebrow" id="entry-eyebrow">LET'S GET YOU IN</p>
+      <h2 id="entry-title">Create your room</h2>
+      <p class="muted" id="entry-copy">Pick a nickname. We'll make you a room to share.</p>
+      <form id="entry-form">
+        <label for="nickname">Your nickname</label>
+        <input id="nickname" maxlength="18" minlength="2" autocomplete="nickname" placeholder="e.g. MangoBoss" required>
+        <div id="room-code-wrap" class="hidden">
+          <label for="room-code">4-letter room code</label>
+          <input id="room-code" maxlength="4" minlength="4" autocapitalize="characters" autocomplete="off" placeholder="ABCD">
+        </div>
+        <button id="entry-submit" class="button button-primary" type="submit">Create room <span>↗</span></button>
+      </form>
+      <p id="entry-error" class="inline-error hidden" role="alert"></p>
+    </section>
+
+    <section id="how-screen" class="screen panel hidden">
+      <button class="back-button" data-back>← Back</button>
+      <p class="eyebrow">THE QUICK GUIDE</p>
+      <h2>Easy to learn.<br>Hard to guess.</h2>
+      <div class="how-list">
+        <div><span class="how-number">1</span><p><b>The Keeper picks a secret.</b><br>Only they see the three choices.</p></div>
+        <div><span class="how-number">2</span><p><b>Ask yes/no questions.</b><br>The Keeper answers Yes, No, or Sometimes.</p></div>
+        <div><span class="how-number">3</span><p><b>Guess whenever you're ready.</b><br>Correct guesses earn 10 points (7 after using your private hint). The Keeper earns 10 if all 10 tries run out.</p></div>
+      </div>
+      <button id="how-done" class="button button-primary">Got it!</button>
+    </section>
+
+    <section id="lobby-screen" class="screen panel hidden">
+      <div class="lobby-heading">
+        <div><p class="eyebrow">YOUR ROOM</p><h2>Ready, player?</h2></div>
+        <span id="connection-pill" class="status-pill"><span></span> Connected</span>
+      </div>
+      <div class="room-code-card">
+        <div><p class="muted small">SHARE THIS CODE WITH FRIENDS</p><strong id="display-room-code">----</strong></div>
+        <button id="copy-code" class="copy-button">Copy code</button>
+      </div>
+      <div class="section-heading"><h3>Players <span id="player-count">0</span></h3><span class="muted small">Need at least 2</span></div>
+      <div class="target-setting"><label for="target-score">Match target</label><select id="target-score"><option value="50">50 points</option><option value="30">30 points</option></select><span id="target-note" class="muted small">Only the host can change this.</span></div><ul id="player-list" class="player-list"></ul>
+      <div id="lobby-message" class="notice">Waiting for friends to join…</div>
+      <button id="start-game" class="button button-primary" disabled>Start game <span>→</span></button>
+      <p id="start-hint" class="muted small center">The host can start when 2 players are connected.</p>
+      <button id="leave-room" class="text-button danger-text">Leave room</button>
+    </section>
+
+    <section id="game-screen" class="screen panel hidden" aria-live="polite"></section>
+
+    <div id="toast" class="toast hidden" role="status" aria-live="polite"></div>
+    <footer>Made for curious minds <span>✦</span></footer>
+  </main>
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/app.js" type="module"></script>
+</body>
+</html>
